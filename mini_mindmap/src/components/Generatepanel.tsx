@@ -1,11 +1,29 @@
 import { useState } from "react";
 import { Sparkles } from "lucide-react";
+import { useMap } from "../context/MapProvider";
 
 function GeneratePanel() {
   const [text, setText] = useState("");
+  const { getMap, loading: mapLoading } = useMap();
 
-  const handleGenerate = () => {
-    console.log("Generating MindMap");
+  const handleGenerate = async () => {
+    try {
+        if (text.trim() === "") {
+        alert("Please enter some text to generate a mindmap.");
+        return;
+        }
+        if(text.length < 100){
+            alert("Please enter at least 100 characters to generate a mindmap.");
+            return;
+        }
+        if(text.length > 10000){
+            alert("Please enter no more than 10000 characters to generate a mindmap.");
+            return;
+        }
+        await getMap(text);
+    } catch (error) {
+        console.error("Error generating mindmap:", error);
+    }
   };
 
   return (
@@ -32,9 +50,14 @@ function GeneratePanel() {
 
         <button
           onClick={handleGenerate}
+          disabled={mapLoading}
           className="cursor-pointer w-full h-12 bg-linear-to-r from-indigo-600 to-purple-600 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-md"
         >
-          <Sparkles className="w-5 h-5" />
+          {mapLoading ? (
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          ) : (
+            <Sparkles className="w-5 h-5" />
+          )}
           Generate Mindmap
         </button>
       </div>

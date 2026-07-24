@@ -1,6 +1,10 @@
 import { BrainCircuit } from "lucide-react";
+import { useMap } from "../context/MapProvider";
 
 function MindmapCanvas() {
+
+  const {map, loading: mapLoading} = useMap();
+
   return (
     <div className="relative bg-white border border-slate-200 rounded-xl h-[calc(100vh-240px)] overflow-hidden flex items-center justify-center bg-[radial-gradient(#CBD5E1_0.5px,transparent_0.5px)] bg-size-[24px_24px]">
       <div className="text-center max-w-md px-6 animate-[float_6s_ease-in-out_infinite]">
