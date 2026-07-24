@@ -239,33 +239,29 @@ function MindmapCanvas() {
       .filter((edge): edge is NonNullable<typeof edge> => edge !== null);
   }, [connections, nodes, nodePositions, map]);
 
-  if (mapLoading) {
-    return (
-      <div className="relative bg-white border border-slate-200 rounded-xl h-[calc(100vh-240px)] overflow-hidden flex items-center justify-center bg-[radial-gradient(#CBD5E1_0.5px,transparent_0.5px)] bg-size-[24px_24px]">
-        <div className="text-center max-w-md px-6 flex flex-col items-center gap-5">
-          <div className="relative w-24 h-24">
-            <div className="absolute inset-0 rounded-full border-4 border-indigo-100 border-t-indigo-600 animate-spin" />
-            <div className="absolute inset-5 rounded-full bg-indigo-100/70 flex items-center justify-center">
-              <BrainCircuit className="w-10 h-10 text-indigo-600" strokeWidth={1.5} />
-            </div>
-          </div>
-          <div>
-            <h1 className="text-2xl font-semibold text-slate-900 mb-2">
-              Generating your mindmap
-            </h1>
-            <p className="text-base text-slate-500">
-              Gemini is building the structure, connections, and summaries now.
-            </p>
-          </div>
-          <div className="w-full max-w-sm h-2 rounded-full bg-slate-100 overflow-hidden">
-            <div className="h-full w-1/2 bg-linear-to-r from-indigo-500 to-purple-500 animate-pulse" />
+  const loadingOverlay = mapLoading ? (
+    <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/70 backdrop-blur-sm">
+      <div className="text-center max-w-md px-6 flex flex-col items-center gap-5">
+        <div className="relative w-24 h-24">
+          <div className="absolute inset-0 rounded-full border-4 border-indigo-100 border-t-indigo-600 animate-spin" />
+          <div className="absolute inset-5 rounded-full bg-indigo-100/70 flex items-center justify-center">
+            <BrainCircuit className="w-10 h-10 text-indigo-600" strokeWidth={1.5} />
           </div>
         </div>
-
-        <div className="absolute inset-0 pointer-events-none border-12 border-white/50 rounded-xl" />
+        <div>
+          <h1 className="text-2xl font-semibold text-slate-900 mb-2">
+            Generating your mindmap
+          </h1>
+          <p className="text-base text-slate-500">
+            Gemini is building the structure, connections, and summaries now.
+          </p>
+        </div>
+        <div className="w-full max-w-sm h-2 rounded-full bg-slate-100 overflow-hidden">
+          <div className="h-full w-1/2 bg-linear-to-r from-indigo-500 to-purple-500 animate-pulse" />
+        </div>
       </div>
-    );
-  }
+    </div>
+  ) : null;
 
   if (mapError) {
     return (
@@ -312,6 +308,8 @@ function MindmapCanvas() {
           </p>
         </div>
 
+        {loadingOverlay}
+
         <div className="absolute inset-0 pointer-events-none border-12 border-white/50 rounded-xl" />
       </div>
     );
@@ -323,6 +321,8 @@ function MindmapCanvas() {
       onMouseDown={handlePointerDown}
       className="relative bg-white border border-slate-200 rounded-xl h-[calc(100vh-240px)] overflow-hidden cursor-grab bg-[radial-gradient(#CBD5E1_0.5px,transparent_0.5px)] bg-size-[24px_24px]"
     >
+      {loadingOverlay}
+
       {/* Pannable / zoomable content. Only this wrapper's transform changes
           during interaction — nodes and edges never re-render for pan/zoom. */}
       <div

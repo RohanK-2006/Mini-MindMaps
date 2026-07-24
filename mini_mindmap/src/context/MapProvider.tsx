@@ -4,6 +4,7 @@ import type { Mindmap } from "../types/types";
 
 interface MapContextType {
   map: Mindmap | null;
+  setMap: (map: Mindmap | null) => void;
   getMap: (textInput: string) => Promise<void>;
   loading: boolean;
   error: string | null;
@@ -13,6 +14,7 @@ interface MapContextType {
 
 const MapContext = createContext<MapContextType>({
   map: null,
+  setMap: () => {},
   getMap: async () => {
     throw new Error("MapContext not initialized");
   },
@@ -32,39 +34,40 @@ const MapProvider = ({ children } : { children: React.ReactNode }) => {
     const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
     const getMap = async (textInput: string) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/mindmaps",
-        {
-          textInput
+        setSelectedNodeId(null);
+        setError(null);
+        setLoading(true);
+        try {
+        const response = await axios.post(
+            "http://localhost:5000/api/mindmaps",
+            {
+            textInput
+            }
+        );
+        setMap(response.data);
+        setSelectedNodeId(response.data?.rootId ?? null);
+        } catch (requestError) {
+        setMap(null);
+        setSelectedNodeId(null);
+
+        if (axios.isAxiosError(requestError)) {
+            const responseMessage = requestError.response?.data?.message;
+            const validationErrors = requestError.response?.data?.errors;
+            const rawMessage = Array.isArray(validationErrors)
+            ? validationErrors.join("; ")
+            : null;
+
+            setError(responseMessage ?? rawMessage ?? requestError.message ?? "Failed to generate mindmap");
+        } else {
+            setError(requestError instanceof Error ? requestError.message : "Failed to generate mindmap");
         }
-      );
-      setMap(response.data);
-      setSelectedNodeId(response.data?.rootId ?? null);
-    } catch (requestError) {
-      setMap(null);
-      setSelectedNodeId(null);
-
-      if (axios.isAxiosError(requestError)) {
-        const responseMessage = requestError.response?.data?.message;
-        const validationErrors = requestError.response?.data?.errors;
-        const rawMessage = Array.isArray(validationErrors)
-          ? validationErrors.join("; ")
-          : null;
-
-        setError(responseMessage ?? rawMessage ?? requestError.message ?? "Failed to generate mindmap");
-      } else {
-        setError(requestError instanceof Error ? requestError.message : "Failed to generate mindmap");
-      }
-    } finally {
-      setLoading(false);
-    }
+        } finally {
+        setLoading(false);
+        }
     };
 
     return (
-    <MapContext.Provider value={{ map, getMap, loading, error, selectedNodeId, setSelectedNodeId }}>
+    <MapContext.Provider value={{ map, setMap, getMap, loading, error, selectedNodeId, setSelectedNodeId }}>
             {children}
         </MapContext.Provider>
     )

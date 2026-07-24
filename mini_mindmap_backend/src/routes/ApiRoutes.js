@@ -1,11 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
+import { readFile, writeFile } from "fs/promises";
+import path from "path";
+import { randomUUID } from "crypto";
 import { GoogleGenAI } from "@google/genai";
 import { MindmapPrompt } from "../utils/Prompts.js";
 
 dotenv.config();
 
-const AiRoutes = express.Router();
+const MINDMAPS_FILE = path.join(process.cwd(), "src", "data", "MindMaps.json");
+
+const ApiRoutes = express.Router();
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
@@ -93,7 +98,7 @@ const validateMindmapResponse = (mindmap) => {
     return errors;
 };
 
-AiRoutes.post("/mindmaps", async (req, res) => {
+ApiRoutes.post("/mindmaps", async (req, res) => {
     try {
         const { textInput } = req.body;
 
@@ -171,9 +176,23 @@ AiRoutes.post("/mindmaps", async (req, res) => {
                     });
                 }
 
-                console.log("Parsed Mindmap: ", mindmap);
-        
+                mindmap = {
+                    id: randomUUID(),
+                    createdAt: new Date().toISOString(),
+                    ...mindmap,
+                }
 
+                const file = await readFile(MINDMAPS_FILE, "utf-8");
+                const mindmaps = JSON.parse(file);
+                mindmaps.push(mindmap);
+
+                await writeFile(
+                    MINDMAPS_FILE,
+                    JSON.stringify(mindmaps, null, 2),
+                    "utf-8"
+                );
+
+                console.log("Parsed Mindmap: ", mindmap);
         return res.status(200).json(mindmap);
     } catch (error) {
         console.error("Error in /mindmaps route:", error);
@@ -181,5 +200,45 @@ AiRoutes.post("/mindmaps", async (req, res) => {
     }
 });
 
+ApiRoutes.get("/mindmaps", async (req, res) => {
+  try {
+    const file = await readFile(MINDMAPS_FILE, "utf-8");
+    const mindmaps = JSON.parse(file);
 
-export default AiRoutes;
+    mindmaps.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
+    const response = mindmaps.map(({ id, title, createdAt }) => ({
+      id,
+      title,
+      createdAt,
+    }));
+
+    return res.status(200).json(response);
+  } catch (error) {
+    console.error("Error in /mindmaps GET route:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+ApiRoutes.get("/mindmaps/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const file = await readFile(MINDMAPS_FILE, "utf-8");
+    const mindmaps = JSON.parse(file);
+    const mindmap = mindmaps.find((m) => m.id === id);
+
+    if (!mindmap) {
+      return res.status(404).json({ message: "Mindmap not found" });
+    }
+
+    return res.status(200).json(mindmap);
+  } catch (error) {
+    console.error("Error in /mindmaps/:id GET route:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+export default ApiRoutes;
