@@ -3,6 +3,7 @@ import { BrainCircuit, ZoomIn, ZoomOut, Scan } from "lucide-react";
 import { useMap } from "../context/MapProvider";
 import { useCanvasPanZoom } from "../hooks/useCanvasPanZoom";
 import type { MindmapConnection, MindmapNode } from "../types/types";
+import { useMock } from "../context/MockProvider";
 
 // Virtual canvas coordinate space. Large enough that even mindmaps with
 // many children won't run out of room; nodes are laid out relative to
@@ -132,6 +133,7 @@ const NodeCard = memo(function NodeCard({ node, position, isRoot, isSelected, on
 
 function MindmapCanvas() {
   const { map, loading: mapLoading, error: mapError, selectedNodeId, setSelectedNodeId } = useMap();
+  const { mock_mode } = useMock();
   const { containerRef, contentRef, handlePointerDown, centerOn, zoomIn, zoomOut, resetView } = useCanvasPanZoom();
 
   const nodes = map?.nodes ?? [];
@@ -306,6 +308,11 @@ function MindmapCanvas() {
             Paste your text in the generator to see your mindmap appear here.
             We'll automatically extract key concepts and relationships for you.
           </p>
+          {mock_mode && (
+            <p className="text-base text-slate-500 mt-2">
+              Mock mode is enabled. The mindmap will be generated from a static example.
+            </p>
+          )}
         </div>
 
         {loadingOverlay}

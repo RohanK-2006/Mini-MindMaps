@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useState } from "react";
 import type { Mindmap } from "../types/types";
+import { useMock } from "./MockProvider";
 
 interface MapContextType {
   map: Mindmap | null;
@@ -32,6 +33,8 @@ const MapProvider = ({ children } : { children: React.ReactNode }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+    const { mock_mode } = useMock();
+    
 
     const getMap = async (textInput: string) => {
         setSelectedNodeId(null);
@@ -41,9 +44,13 @@ const MapProvider = ({ children } : { children: React.ReactNode }) => {
         const response = await axios.post(
             "http://localhost:5000/api/mindmaps",
             {
-            textInput
+                mock_mode,
+                textInput
             }
         );
+        if(response.status === 500){
+            alert("Model API key is miising.");
+        }
         setMap(response.data);
         setSelectedNodeId(response.data?.rootId ?? null);
         } catch (requestError) {

@@ -3,11 +3,14 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import MapProvider from './context/MapProvider.tsx'
+import MockProvider from './context/MockProvider.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <MapProvider>
-      <App />
-    </MapProvider>
+    <MockProvider>
+      <MapProvider>
+        <App />
+      </MapProvider>
+    </MockProvider>
   </StrictMode>,
 )
