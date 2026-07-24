@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Sparkles } from "lucide-react";
 import { useMap } from "../context/MapProvider";
+import { useTheme } from "../context/ThemeProvider";
 
 function GeneratePanel() {
   const [text, setText] = useState("");
   const { getMap, loading: mapLoading } = useMap();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const handleGenerate = async () => {
     try {
@@ -28,12 +31,12 @@ function GeneratePanel() {
 
   return (
     <section className="w-full md:w-100 flex flex-col">
-      <div className="bg-white border border-slate-200 rounded-xl p-6 flex flex-col gap-6 h-[calc(100vh-400px)] min-h-80">
+      <div className={`rounded-xl p-6 flex flex-col gap-6 h-[calc(100vh-400px)] min-h-80 border transition-colors duration-300 ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}`}>
         <div className="space-y-1">
-          <h2 className="text-xl font-semibold text-slate-900">
+          <h2 className={`text-xl font-semibold ${isDark ? "text-slate-100" : "text-slate-900"}`}>
             Generate Mindmap
           </h2>
-          <p className="text-sm text-slate-500">
+          <p className={`text-sm ${isDark ? "text-slate-400" : "text-slate-500"}`}>
             Paste your transcript or research notes below to visualize the
             structure.
           </p>
@@ -44,7 +47,7 @@ function GeneratePanel() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="e.g., The solar system consists of the Sun and the objects that orbit it, including eight planets..."
-            className="w-full h-full p-4 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none text-sm text-slate-700 placeholder:text-slate-400"
+            className={`w-full h-full p-4 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none text-sm placeholder:text-slate-400 ${isDark ? "bg-slate-800 border-slate-700 text-slate-100" : "bg-slate-50 border-slate-200 text-slate-700"}`}
           />
         </div>
 

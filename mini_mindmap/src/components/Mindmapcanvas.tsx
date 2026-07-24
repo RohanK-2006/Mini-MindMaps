@@ -4,6 +4,7 @@ import { useMap } from "../context/MapProvider";
 import { useCanvasPanZoom } from "../hooks/useCanvasPanZoom";
 import type { MindmapConnection, MindmapNode } from "../types/types";
 import { useMock } from "../context/MockProvider";
+import { useTheme } from "../context/ThemeProvider";
 
 // Virtual canvas coordinate space. Large enough that even mindmaps with
 // many children won't run out of room; nodes are laid out relative to
@@ -95,9 +96,10 @@ interface NodeCardProps {
   isRoot: boolean;
   isSelected: boolean;
   onSelect: (id: string) => void;
+  isDark: boolean;
 }
 
-const NodeCard = memo(function NodeCard({ node, position, isRoot, isSelected, onSelect }: NodeCardProps) {
+const NodeCard = memo(function NodeCard({ node, position, isRoot, isSelected, onSelect, isDark }: NodeCardProps) {
   return (
     <div
       data-canvas-node
@@ -111,8 +113,12 @@ const NodeCard = memo(function NodeCard({ node, position, isRoot, isSelected, on
           isRoot
             ? "w-44 bg-linear-to-br from-indigo-600 to-purple-600 text-white border-transparent shadow-md hover:shadow-xl hover:shadow-indigo-200"
             : isSelected
-              ? "w-40 bg-white border-indigo-300 ring-4 ring-indigo-100 shadow-lg"
-              : "w-40 bg-white border-slate-200 shadow-sm hover:border-indigo-200 hover:shadow-lg"
+              ? isDark
+                ? "w-40 bg-slate-800 border-indigo-400 ring-4 ring-indigo-500/20 shadow-lg"
+                : "w-40 bg-white border-indigo-300 ring-4 ring-indigo-100 shadow-lg"
+              : isDark
+                ? "w-40 bg-slate-900 border-slate-700 shadow-sm hover:border-indigo-400 hover:shadow-lg"
+                : "w-40 bg-white border-slate-200 shadow-sm hover:border-indigo-200 hover:shadow-lg"
         }`}
       >
         {isRoot && (
@@ -120,10 +126,10 @@ const NodeCard = memo(function NodeCard({ node, position, isRoot, isSelected, on
             <BrainCircuit className="h-4 w-4 text-indigo-600" strokeWidth={2} />
           </span>
         )}
-        <div className={`text-xs font-medium uppercase tracking-[0.18em] mb-2 ${isRoot ? "text-white/80" : "text-indigo-500"}`}>
+        <div className={`text-xs font-medium uppercase tracking-[0.18em] mb-2 ${isRoot ? "text-white/80" : isDark ? "text-indigo-300" : "text-indigo-500"}`}>
           {isRoot ? "Root Topic" : "Node"}
         </div>
-        <div className={`text-sm font-semibold leading-snug ${isRoot ? "text-white" : "text-slate-900"}`}>
+        <div className={`text-sm font-semibold leading-snug ${isRoot ? "text-white" : isDark ? "text-slate-100" : "text-slate-900"}`}>
           {node.label}
         </div>
       </button>
@@ -134,6 +140,8 @@ const NodeCard = memo(function NodeCard({ node, position, isRoot, isSelected, on
 function MindmapCanvas() {
   const { map, loading: mapLoading, error: mapError, selectedNodeId, setSelectedNodeId } = useMap();
   const { mock_mode } = useMock();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const { containerRef, contentRef, handlePointerDown, centerOn, zoomIn, zoomOut, resetView } = useCanvasPanZoom();
 
   const nodes = map?.nodes ?? [];
@@ -242,23 +250,23 @@ function MindmapCanvas() {
   }, [connections, nodes, nodePositions, map]);
 
   const loadingOverlay = mapLoading ? (
-    <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/70 backdrop-blur-sm">
+    <div className={`absolute inset-0 z-20 flex items-center justify-center backdrop-blur-sm ${isDark ? "bg-slate-950/70" : "bg-white/70"}`}>
       <div className="text-center max-w-md px-6 flex flex-col items-center gap-5">
         <div className="relative w-24 h-24">
-          <div className="absolute inset-0 rounded-full border-4 border-indigo-100 border-t-indigo-600 animate-spin" />
-          <div className="absolute inset-5 rounded-full bg-indigo-100/70 flex items-center justify-center">
+          <div className={`absolute inset-0 rounded-full border-4 animate-spin ${isDark ? "border-slate-700 border-t-indigo-400" : "border-indigo-100 border-t-indigo-600"}`} />
+          <div className={`absolute inset-5 rounded-full flex items-center justify-center ${isDark ? "bg-slate-800/80" : "bg-indigo-100/70"}`}>
             <BrainCircuit className="w-10 h-10 text-indigo-600" strokeWidth={1.5} />
           </div>
         </div>
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900 mb-2">
+          <h1 className={`text-2xl font-semibold mb-2 ${isDark ? "text-slate-100" : "text-slate-900"}`}>
             Generating your mindmap
           </h1>
-          <p className="text-base text-slate-500">
+          <p className={`text-base ${isDark ? "text-slate-400" : "text-slate-500"}`}>
             Gemini is building the structure, connections, and summaries now.
           </p>
         </div>
-        <div className="w-full max-w-sm h-2 rounded-full bg-slate-100 overflow-hidden">
+        <div className={`w-full max-w-sm h-2 rounded-full overflow-hidden ${isDark ? "bg-slate-800" : "bg-slate-100"}`}>
           <div className="h-full w-1/2 bg-linear-to-r from-indigo-500 to-purple-500 animate-pulse" />
         </div>
       </div>
@@ -267,22 +275,22 @@ function MindmapCanvas() {
 
   if (mapError) {
     return (
-      <div className="relative bg-white border border-slate-200 rounded-xl h-[calc(100vh-240px)] overflow-hidden flex items-center justify-center bg-[radial-gradient(#CBD5E1_0.5px,transparent_0.5px)] bg-size-[24px_24px]">
+      <div className={`relative rounded-xl h-[calc(100vh-240px)] overflow-hidden flex items-center justify-center bg-[radial-gradient(#CBD5E1_0.5px,transparent_0.5px)] bg-size-[24px_24px] border ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}`}>
         <div className="max-w-lg w-full px-6">
-          <div className="bg-rose-50 border border-rose-200 rounded-2xl p-6 shadow-sm">
-            <div className="w-14 h-14 rounded-full bg-rose-100 flex items-center justify-center mb-4">
+          <div className={`rounded-2xl p-6 shadow-sm ${isDark ? "bg-rose-500/10 border border-rose-500/20" : "bg-rose-50 border border-rose-200"}`}>
+            <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-4 ${isDark ? "bg-rose-500/15" : "bg-rose-100"}`}>
               <BrainCircuit className="w-7 h-7 text-rose-600" strokeWidth={1.5} />
             </div>
             <p className="text-xs uppercase tracking-[0.2em] text-rose-500 mb-2">
               Generation Failed
             </p>
-            <h1 className="text-2xl font-semibold text-slate-900 mb-2">
+            <h1 className={`text-2xl font-semibold mb-2 ${isDark ? "text-slate-100" : "text-slate-900"}`}>
               We couldn't build the mindmap
             </h1>
-            <p className="text-sm text-slate-600 leading-6">
+            <p className={`text-sm leading-6 ${isDark ? "text-slate-300" : "text-slate-600"}`}>
               {mapError}
             </p>
-            <div className="mt-5 flex items-center gap-3 text-sm text-rose-700 bg-rose-100/70 border border-rose-200 rounded-xl px-4 py-3">
+            <div className={`mt-5 flex items-center gap-3 text-sm rounded-xl px-4 py-3 ${isDark ? "text-rose-200 bg-rose-500/10 border border-rose-500/20" : "text-rose-700 bg-rose-100/70 border border-rose-200"}`}>
               <span className="inline-block w-2.5 h-2.5 rounded-full bg-rose-500" />
               Try generating again with a different prompt or fix the input and retry.
             </div>
@@ -296,20 +304,20 @@ function MindmapCanvas() {
 
   if (!map) {
     return (
-      <div className="relative bg-white border border-slate-200 rounded-xl h-[calc(100vh-240px)] overflow-hidden flex items-center justify-center bg-[radial-gradient(#CBD5E1_0.5px,transparent_0.5px)] bg-size-[24px_24px]">
+      <div className={`relative rounded-xl h-[calc(100vh-240px)] overflow-hidden flex items-center justify-center bg-[radial-gradient(#CBD5E1_0.5px,transparent_0.5px)] bg-size-[24px_24px] border ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}`}>
         <div className="text-center max-w-md px-6 animate-[float_6s_ease-in-out_infinite]">
-          <div className="w-32 h-32 mx-auto mb-6 bg-indigo-100/60 rounded-full flex items-center justify-center">
+          <div className={`w-32 h-32 mx-auto mb-6 rounded-full flex items-center justify-center ${isDark ? "bg-indigo-500/15" : "bg-indigo-100/60"}`}>
             <BrainCircuit className="w-16 h-16 text-indigo-600" strokeWidth={1.5} />
           </div>
-          <h1 className="text-2xl font-semibold text-slate-900 mb-2">
+          <h1 className={`text-2xl font-semibold mb-2 ${isDark ? "text-slate-100" : "text-slate-900"}`}>
             Ready to visualize your ideas?
           </h1>
-          <p className="text-base text-slate-500">
+          <p className={`text-base ${isDark ? "text-slate-400" : "text-slate-500"}`}>
             Paste your text in the generator to see your mindmap appear here.
             We'll automatically extract key concepts and relationships for you.
           </p>
           {mock_mode && (
-            <p className="text-base text-slate-500 mt-2">
+            <p className={`text-base mt-2 ${isDark ? "text-slate-400" : "text-slate-500"}`}>
               Mock mode is enabled. The mindmap will be generated from a static example.
             </p>
           )}
@@ -326,7 +334,7 @@ function MindmapCanvas() {
     <div
       ref={containerRef}
       onMouseDown={handlePointerDown}
-      className="relative bg-white border border-slate-200 rounded-xl h-[calc(100vh-240px)] overflow-hidden cursor-grab bg-[radial-gradient(#CBD5E1_0.5px,transparent_0.5px)] bg-size-[24px_24px]"
+      className={`relative rounded-xl h-[calc(100vh-240px)] overflow-hidden cursor-grab bg-[radial-gradient(#CBD5E1_0.5px,transparent_0.5px)] bg-size-[24px_24px] border transition-colors duration-300 ${isDark ? "bg-slate-900 border-slate-700" : "bg-white border-slate-200"}`}
     >
       {loadingOverlay}
 
@@ -426,6 +434,7 @@ function MindmapCanvas() {
               isRoot={node.id === map.rootId}
               isSelected={node.id === selectedNodeId}
               onSelect={setSelectedNodeId}
+              isDark={isDark}
             />
           );
         })}
@@ -434,17 +443,17 @@ function MindmapCanvas() {
       {/* Fixed overlays — outside the transformed layer so they stay put on screen */}
       
 
-      <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-md border border-slate-200 rounded-xl px-4 py-3 shadow-sm pointer-events-none">
-        <p className="text-xs text-slate-500">
+      <div className={`absolute bottom-6 right-6 backdrop-blur-md rounded-xl px-4 py-3 shadow-sm pointer-events-none border ${isDark ? "bg-slate-900/90 border-slate-700" : "bg-white/90 border-slate-200"}`}>
+        <p className={`text-xs ${isDark ? "text-slate-400" : "text-slate-500"}`}>
           {nodes.length} nodes · {connections.length} connections
         </p>
       </div>
 
-      <div className="absolute bottom-6 left-6 flex items-center gap-1 bg-white/90 backdrop-blur-md border border-slate-200 rounded-xl p-1 shadow-sm">
+      <div className={`absolute bottom-6 left-6 flex items-center gap-1 backdrop-blur-md rounded-xl p-1 shadow-sm border ${isDark ? "bg-slate-900/90 border-slate-700" : "bg-white/90 border-slate-200"}`}>
         <button
           type="button"
           onClick={zoomOut}
-          className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+          className={`p-2 rounded-lg transition-colors ${isDark ? "text-slate-400 hover:bg-slate-800 hover:text-slate-100" : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"}`}
           aria-label="Zoom out"
         >
           <ZoomOut className="w-4 h-4" />
@@ -452,7 +461,7 @@ function MindmapCanvas() {
         <button
           type="button"
           onClick={() => resetView(CENTER)}
-          className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+          className={`p-2 rounded-lg transition-colors ${isDark ? "text-slate-400 hover:bg-slate-800 hover:text-slate-100" : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"}`}
           aria-label="Reset view"
         >
           <Scan className="w-4 h-4" />
@@ -460,14 +469,14 @@ function MindmapCanvas() {
         <button
           type="button"
           onClick={zoomIn}
-          className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+          className={`p-2 rounded-lg transition-colors ${isDark ? "text-slate-400 hover:bg-slate-800 hover:text-slate-100" : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"}`}
           aria-label="Zoom in"
         >
           <ZoomIn className="w-4 h-4" />
         </button>
       </div>
 
-      <div className="absolute inset-0 pointer-events-none border-12 border-white/50 rounded-xl" />
+      <div className={`absolute inset-0 pointer-events-none border-12 rounded-xl ${isDark ? "border-slate-950/40" : "border-white/50"}`} />
     </div>
   );
 }

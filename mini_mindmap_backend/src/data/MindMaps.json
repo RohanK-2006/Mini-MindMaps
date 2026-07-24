@@ -348,5 +348,65 @@
         "label": "supports"
       }
     ]
+  },
+  {
+    "id": "e2f4f7fa-a3ab-4317-ae4f-4d597391aede",
+    "createdAt": "2026-07-24T17:24:54.996Z",
+    "title": "Frontend State Management",
+    "rootId": "state-management",
+    "nodes": [
+      {
+        "id": "state-management",
+        "label": "Frontend State Management",
+        "summary": "Effective state management determines how an application updates its display after data changes."
+      },
+      {
+        "id": "optimistic-updates",
+        "label": "Optimistic Updates",
+        "summary": "The UI updates immediately based on client-side logic to provide a more responsive experience."
+      },
+      {
+        "id": "server-sync",
+        "label": "Server Synchronization",
+        "summary": "Fetching data directly from the server ensures that the frontend always matches the backend source of truth."
+      },
+      {
+        "id": "ux-impact",
+        "label": "UX Impact",
+        "summary": "Instant updates improve the perceived performance and polish of the application interface."
+      },
+      {
+        "id": "implementation-tradeoffs",
+        "label": "Implementation Tradeoffs",
+        "summary": "Developers must choose between the simplicity of server fetching and the responsiveness of local state modification."
+      }
+    ],
+    "connections": [
+      {
+        "from": "state-management",
+        "to": "optimistic-updates",
+        "label": "includes"
+      },
+      {
+        "from": "state-management",
+        "to": "server-sync",
+        "label": "includes"
+      },
+      {
+        "from": "optimistic-updates",
+        "to": "ux-impact",
+        "label": "influences"
+      },
+      {
+        "from": "server-sync",
+        "to": "implementation-tradeoffs",
+        "label": "requires"
+      },
+      {
+        "from": "optimistic-updates",
+        "to": "implementation-tradeoffs",
+        "label": "requires"
+      }
+    ]
   }
 ]
