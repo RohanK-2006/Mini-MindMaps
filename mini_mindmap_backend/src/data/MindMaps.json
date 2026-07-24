@@ -1,411 +1,196 @@
 [
   {
-    "id": "a2995c39-e79e-4ddb-92fb-0d7250f6aefc",
-    "createdAt": "2026-07-24T16:58:23.674Z",
-    "title": "JavaScript Temporal Dead Zone",
-    "rootId": "TDZ",
+    "id": "1b07e07d-8fa1-4e2b-8502-4216e80f1ef9",
+    "createdAt": "2026-07-24T17:30:10.986Z",
+    "title": "Blockchain Technology Overview",
+    "rootId": "blockchain",
     "nodes": [
       {
-        "id": "TDZ",
-        "label": "Temporal Dead Zone",
-        "summary": "The period between entering a scope and the point where a variable is declared."
+        "id": "blockchain",
+        "label": "Blockchain Technology",
+        "summary": "A distributed digital ledger system that records transactions securely across multiple independent computers."
       },
       {
-        "id": "Declarations",
-        "label": "Variable Declarations",
-        "summary": "Keywords like let and const create block-scoped variables that are initialized only when their definition is reached."
+        "id": "security",
+        "label": "Data Security",
+        "summary": "Cryptographic hashes and decentralized storage make transaction records resistant to unauthorized alteration."
       },
       {
-        "id": "Usage",
-        "label": "Premature Usage",
-        "summary": "Attempting to access a variable before its declaration results in a reference error."
-      },
-      {
-        "id": "Assignments",
-        "label": "Reassignment Issues",
-        "summary": "Trying to modify a variable before the execution flow reaches its declaration statement triggers errors."
-      },
-      {
-        "id": "ExecutionFlow",
-        "label": "Code Execution Order",
-        "summary": "JavaScript executes code sequentially, which dictates when variables become available for use."
-      }
-    ],
-    "connections": [
-      {
-        "from": "TDZ",
-        "to": "Declarations",
-        "label": "defined by"
-      },
-      {
-        "from": "TDZ",
-        "to": "Usage",
-        "label": "prevents"
-      },
-      {
-        "from": "Usage",
-        "to": "ExecutionFlow",
-        "label": "depends on"
-      },
-      {
-        "from": "Assignments",
-        "to": "TDZ",
-        "label": "part of"
-      }
-    ]
-  },
-  {
-    "id": "8f79eeb3-c1fd-4684-8428-53daeb95f32a",
-    "createdAt": "2026-07-24T16:58:25.975Z",
-    "title": "Mock Mindmap Example",
-    "rootId": "iot",
-    "nodes": [
-      {
-        "id": "iot",
-        "label": "Internet of Things",
-        "summary": "The Internet of Things is a network of interconnected physical devices capable of collecting and exchanging data."
-      },
-      {
-        "id": "devices",
-        "label": "Physical Devices",
-        "summary": "These encompass a wide range of hardware like wearables, sensors, and connected vehicles."
-      },
-      {
-        "id": "infrastructure",
-        "label": "System Infrastructure",
-        "summary": "IoT systems require sensors, communication networks, and cloud platforms to function effectively."
+        "id": "transparency",
+        "label": "Network Transparency",
+        "summary": "Maintaining ledger copies across all participants eliminates the need for central intermediaries."
       },
       {
         "id": "applications",
-        "label": "Industry Applications",
-        "summary": "IoT technology drives improvements in efficiency and decision-making across sectors like healthcare and manufacturing."
+        "label": "Practical Applications",
+        "summary": "Technology uses extend beyond cryptocurrencies to finance, healthcare, supply chain management, and digital identity."
+      },
+      {
+        "id": "contracts",
+        "label": "Smart Contracts",
+        "summary": "Self-executing programs automatically enforce and trigger agreements when specific predefined conditions are met."
       },
       {
         "id": "challenges",
-        "label": "Adoption Challenges",
-        "summary": "Widespread implementation faces obstacles including cybersecurity risks, privacy concerns, and technical interoperability."
-      },
-      {
-        "id": "future",
-        "label": "Future Evolution",
-        "summary": "Advancements in AI and 5G connectivity are set to enhance the intelligence and scalability of IoT."
+        "label": "Current Challenges",
+        "summary": "Major hurdles include high energy usage, scalability limits, regulatory uncertainty, and integration difficulties."
       }
     ],
     "connections": [
       {
-        "from": "iot",
-        "to": "devices",
-        "label": "includes"
+        "from": "blockchain",
+        "to": "security",
+        "label": "ensures"
       },
       {
-        "from": "iot",
-        "to": "infrastructure",
-        "label": "requires"
+        "from": "blockchain",
+        "to": "transparency",
+        "label": "promotes"
       },
       {
-        "from": "iot",
+        "from": "blockchain",
         "to": "applications",
-        "label": "influences"
-      },
-      {
-        "from": "iot",
-        "to": "challenges",
-        "label": "faces"
-      },
-      {
-        "from": "iot",
-        "to": "future",
-        "label": "leads to"
-      }
-    ]
-  },
-  {
-    "id": "2feb30a0-4ff6-4512-8ac4-a40f91faa2cd",
-    "createdAt": "2026-07-24T17:01:05.186Z",
-    "title": "Temporal Dead Zone",
-    "rootId": "temporal-dead-zone",
-    "nodes": [
-      {
-        "id": "temporal-dead-zone",
-        "label": "Temporal Dead Zone",
-        "summary": "This phenomenon occurs when a variable is accessed before its declaration is reached in the code execution flow."
-      },
-      {
-        "id": "variable-declaration",
-        "label": "Variable Declaration",
-        "summary": "Variables must be initialized using let or const keywords before they can be safely accessed."
-      },
-      {
-        "id": "execution-order",
-        "label": "Execution Order",
-        "summary": "The sequence in which lines of code are processed determines when a variable becomes available for use."
-      },
-      {
-        "id": "reference-error",
-        "label": "Reference Error",
-        "summary": "Attempting to assign or reference a variable within the temporal dead zone results in an error."
-      },
-      {
-        "id": "scope-rules",
-        "label": "Scope Rules",
-        "summary": "JavaScript block scoping mandates that variables remain uninitialized until the declaration statement is executed."
-      }
-    ],
-    "connections": [
-      {
-        "from": "temporal-dead-zone",
-        "to": "variable-declaration",
-        "label": "depends on"
-      },
-      {
-        "from": "temporal-dead-zone",
-        "to": "execution-order",
-        "label": "caused by"
-      },
-      {
-        "from": "temporal-dead-zone",
-        "to": "reference-error",
-        "label": "leads to"
-      },
-      {
-        "from": "temporal-dead-zone",
-        "to": "scope-rules",
-        "label": "part of"
-      }
-    ]
-  },
-  {
-    "id": "e9e88312-eb4c-491d-ba28-1140162e8ae2",
-    "createdAt": "2026-07-24T17:01:07.227Z",
-    "title": "Mock Mindmap Example",
-    "rootId": "iot",
-    "nodes": [
-      {
-        "id": "iot",
-        "label": "Internet of Things",
-        "summary": "The Internet of Things is a network of interconnected physical devices capable of collecting and exchanging data."
-      },
-      {
-        "id": "devices",
-        "label": "Physical Devices",
-        "summary": "These encompass a wide range of hardware like wearables, sensors, and connected vehicles."
-      },
-      {
-        "id": "infrastructure",
-        "label": "System Infrastructure",
-        "summary": "IoT systems require sensors, communication networks, and cloud platforms to function effectively."
-      },
-      {
-        "id": "applications",
-        "label": "Industry Applications",
-        "summary": "IoT technology drives improvements in efficiency and decision-making across sectors like healthcare and manufacturing."
-      },
-      {
-        "id": "challenges",
-        "label": "Adoption Challenges",
-        "summary": "Widespread implementation faces obstacles including cybersecurity risks, privacy concerns, and technical interoperability."
-      },
-      {
-        "id": "future",
-        "label": "Future Evolution",
-        "summary": "Advancements in AI and 5G connectivity are set to enhance the intelligence and scalability of IoT."
-      }
-    ],
-    "connections": [
-      {
-        "from": "iot",
-        "to": "devices",
         "label": "includes"
       },
       {
-        "from": "iot",
-        "to": "infrastructure",
-        "label": "requires"
-      },
-      {
-        "from": "iot",
-        "to": "applications",
-        "label": "influences"
-      },
-      {
-        "from": "iot",
-        "to": "challenges",
-        "label": "faces"
-      },
-      {
-        "from": "iot",
-        "to": "future",
-        "label": "leads to"
-      }
-    ]
-  },
-  {
-    "id": "1453cf97-18cb-4e1a-8fbb-00c01c0915ea",
-    "createdAt": "2026-07-24T17:02:12.830Z",
-    "title": "JavaScript Temporal Dead Zone Error",
-    "rootId": "TDZ",
-    "nodes": [
-      {
-        "id": "TDZ",
-        "label": "Temporal Dead Zone",
-        "summary": "The Temporal Dead Zone refers to the period between the start of a scope and the actual declaration of a variable."
-      },
-      {
-        "id": "VariableDeclaration",
-        "label": "Variable Declaration",
-        "summary": "Variables must be initialized using let or const before they can be accessed in code."
-      },
-      {
-        "id": "ReferenceError",
-        "label": "Reference Error",
-        "summary": "Attempting to access a variable before its declaration results in a reference error in JavaScript."
-      },
-      {
-        "id": "ExecutionOrder",
-        "label": "Execution Order",
-        "summary": "The order of code execution is critical because accessing variables before their definition triggers scope issues."
-      },
-      {
-        "id": "AssignmentConflict",
-        "label": "Assignment Conflict",
-        "summary": "Reassigning a variable before it has been formally declared creates a logical conflict within the code execution flow."
-      }
-    ],
-    "connections": [
-      {
-        "from": "TDZ",
-        "to": "ReferenceError",
-        "label": "leads to"
-      },
-      {
-        "from": "TDZ",
-        "to": "ExecutionOrder",
-        "label": "depends on"
-      },
-      {
-        "from": "VariableDeclaration",
-        "to": "TDZ",
-        "label": "prevents"
-      },
-      {
-        "from": "AssignmentConflict",
-        "to": "TDZ",
-        "label": "part of"
-      }
-    ]
-  },
-  {
-    "id": "ce52987c-5843-417c-8269-a9781c83c515",
-    "createdAt": "2026-07-24T17:08:44.178Z",
-    "title": "ReferenceError Analysis",
-    "rootId": "1",
-    "nodes": [
-      {
-        "id": "1",
-        "label": "ReferenceError",
-        "summary": "A ReferenceError occurs when code attempts to access a variable before its declaration."
-      },
-      {
-        "id": "2",
-        "label": "Variable Declaration",
-        "summary": "Variables must be initialized using let or const keywords before being accessed."
-      },
-      {
-        "id": "3",
-        "label": "Execution Order",
-        "summary": "The order of operations determines whether a variable is accessible at a specific point in the code."
-      },
-      {
-        "id": "4",
-        "label": "Mocking Process",
-        "summary": "Assigning data to a variable prematurely during a mock process can trigger declaration errors."
-      },
-      {
-        "id": "5",
-        "label": "Code Structure",
-        "summary": "Proper placement of declarations is necessary to avoid hoisting or scope issues."
-      }
-    ],
-    "connections": [
-      {
-        "from": "1",
-        "to": "2",
-        "label": "depends on"
-      },
-      {
-        "from": "1",
-        "to": "3",
-        "label": "caused by"
-      },
-      {
-        "from": "3",
-        "to": "4",
-        "label": "includes"
-      },
-      {
-        "from": "5",
-        "to": "2",
+        "from": "blockchain",
+        "to": "contracts",
         "label": "supports"
+      },
+      {
+        "from": "blockchain",
+        "to": "challenges",
+        "label": "faces"
       }
     ]
   },
   {
-    "id": "e2f4f7fa-a3ab-4317-ae4f-4d597391aede",
-    "createdAt": "2026-07-24T17:24:54.996Z",
-    "title": "Frontend State Management",
-    "rootId": "state-management",
+    "id": "23f51f3c-2093-4059-bd01-22088d09836a",
+    "createdAt": "2026-07-24T17:35:43.808Z",
+    "title": "Cybersecurity Fundamentals",
+    "rootId": "root",
     "nodes": [
       {
-        "id": "state-management",
-        "label": "Frontend State Management",
-        "summary": "Effective state management determines how an application updates its display after data changes."
+        "id": "root",
+        "label": "Cybersecurity",
+        "summary": "Cybersecurity involves protecting digital systems and information from unauthorized access and malicious threats."
       },
       {
-        "id": "optimistic-updates",
-        "label": "Optimistic Updates",
-        "summary": "The UI updates immediately based on client-side logic to provide a more responsive experience."
+        "id": "threats",
+        "label": "Cyber Threats",
+        "summary": "Modern digital environments face sophisticated risks like malware, phishing, ransomware, and denial-of-service attacks."
       },
       {
-        "id": "server-sync",
-        "label": "Server Synchronization",
-        "summary": "Fetching data directly from the server ensures that the frontend always matches the backend source of truth."
+        "id": "measures",
+        "label": "Security Measures",
+        "summary": "Organizations deploy tools like firewalls, encryption, and authentication to mitigate potential digital risks."
       },
       {
-        "id": "ux-impact",
-        "label": "UX Impact",
-        "summary": "Instant updates improve the perceived performance and polish of the application interface."
+        "id": "humanFactor",
+        "label": "Human Factor",
+        "summary": "Employee training is essential because human error is a significant contributor to security incidents."
       },
       {
-        "id": "implementation-tradeoffs",
-        "label": "Implementation Tradeoffs",
-        "summary": "Developers must choose between the simplicity of server fetching and the responsiveness of local state modification."
+        "id": "policy",
+        "label": "Policies",
+        "summary": "Governments create regulations and frameworks to safeguard critical infrastructure and sensitive data."
+      },
+      {
+        "id": "techAdvancement",
+        "label": "Emerging Tech",
+        "summary": "Artificial intelligence and machine learning impact both threat detection capabilities and the complexity of attacks."
       }
     ],
     "connections": [
       {
-        "from": "state-management",
-        "to": "optimistic-updates",
+        "from": "root",
+        "to": "threats",
+        "label": "addresses"
+      },
+      {
+        "from": "root",
+        "to": "measures",
         "label": "includes"
       },
       {
-        "from": "state-management",
-        "to": "server-sync",
+        "from": "root",
+        "to": "humanFactor",
+        "label": "depends on"
+      },
+      {
+        "from": "root",
+        "to": "policy",
+        "label": "governed by"
+      },
+      {
+        "from": "root",
+        "to": "techAdvancement",
+        "label": "influences"
+      }
+    ]
+  },
+  {
+    "id": "75b50332-2e6b-4cd1-8b08-03e3905774f3",
+    "createdAt": "2026-07-24T17:35:45.875Z",
+    "title": "Mock Mindmap Example",
+    "rootId": "iot",
+    "nodes": [
+      {
+        "id": "iot",
+        "label": "Internet of Things",
+        "summary": "The Internet of Things is a network of interconnected physical devices capable of collecting and exchanging data."
+      },
+      {
+        "id": "devices",
+        "label": "Physical Devices",
+        "summary": "These encompass a wide range of hardware like wearables, sensors, and connected vehicles."
+      },
+      {
+        "id": "infrastructure",
+        "label": "System Infrastructure",
+        "summary": "IoT systems require sensors, communication networks, and cloud platforms to function effectively."
+      },
+      {
+        "id": "applications",
+        "label": "Industry Applications",
+        "summary": "IoT technology drives improvements in efficiency and decision-making across sectors like healthcare and manufacturing."
+      },
+      {
+        "id": "challenges",
+        "label": "Adoption Challenges",
+        "summary": "Widespread implementation faces obstacles including cybersecurity risks, privacy concerns, and technical interoperability."
+      },
+      {
+        "id": "future",
+        "label": "Future Evolution",
+        "summary": "Advancements in AI and 5G connectivity are set to enhance the intelligence and scalability of IoT."
+      }
+    ],
+    "connections": [
+      {
+        "from": "iot",
+        "to": "devices",
         "label": "includes"
       },
       {
-        "from": "optimistic-updates",
-        "to": "ux-impact",
+        "from": "iot",
+        "to": "infrastructure",
+        "label": "requires"
+      },
+      {
+        "from": "iot",
+        "to": "applications",
         "label": "influences"
       },
       {
-        "from": "server-sync",
-        "to": "implementation-tradeoffs",
-        "label": "requires"
+        "from": "iot",
+        "to": "challenges",
+        "label": "faces"
       },
       {
-        "from": "optimistic-updates",
-        "to": "implementation-tradeoffs",
-        "label": "requires"
+        "from": "iot",
+        "to": "future",
+        "label": "leads to"
       }
     ]
   }

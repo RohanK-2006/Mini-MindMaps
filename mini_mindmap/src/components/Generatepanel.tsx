@@ -43,12 +43,16 @@ function GeneratePanel() {
         </div>
 
         <div className="grow relative">
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="e.g., The solar system consists of the Sun and the objects that orbit it, including eight planets..."
-            className={`w-full h-full p-4 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none text-sm placeholder:text-slate-400 ${isDark ? "bg-slate-800 border-slate-700 text-slate-100" : "bg-slate-50 border-slate-200 text-slate-700"}`}
-          />
+            <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="e.g., The solar system consists of the Sun and the objects that orbit it, including eight planets..."
+                className={`custom-scrollbar w-full h-full p-4 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none text-sm placeholder:text-slate-400 ${
+                    isDark
+                    ? "bg-slate-800 border-slate-700 text-slate-100"
+                    : "bg-slate-50 border-slate-200 text-slate-700"
+                }`}
+            />
         </div>
 
         <button

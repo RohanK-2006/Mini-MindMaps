@@ -53,7 +53,7 @@ function Previousmindmaps() {
         </p>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto">
+      <div className="custom-scrollbar flex-1 min-h-0 overflow-y-auto pr-1">
         {loading ? (
           <div className="h-full flex flex-col items-center justify-center text-center gap-4 py-8">
             <div className="relative w-12 h-12">
