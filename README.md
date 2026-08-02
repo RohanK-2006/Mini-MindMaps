@@ -65,9 +65,8 @@ Clicking any node reveals its summary, allowing users to quickly understand the 
 
 ---
 
-# 🧩 Assignment Flow
+# 🧩 Project Flow
 
-The application follows the complete workflow required by the assignment:
 
 1. User enters a block of text.
 2. Frontend sends the text to the Express backend.
@@ -276,7 +275,3 @@ Given additional time, I would implement:
 * Mindmap export (PNG/PDF)
 
 ---
-
-# 🙏 Thank You
-
-Thank you for reviewing my submission. I enjoyed building this project and appreciated the opportunity to demonstrate full-stack development, AI integration, backend validation, and interactive frontend design in a compact application.
